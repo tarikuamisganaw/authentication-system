@@ -12,7 +12,7 @@ const Lost = () => {
         </h4>
         <p className="text-muted text-center mt-3">
           <Button as={Link} to="/" className="text-uppercase">
-            go home
+            home
           </Button>
         </p>
       </span>

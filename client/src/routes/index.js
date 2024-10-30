@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         path: "/dash",
         element: <PrivateRoute />,
         children: [
-          { path: "", element: <Profile /> }, // Default child route
+          { path: "", element: <Profile /> }, 
         ],
       },
       { path: "404", element: <Lost /> },
