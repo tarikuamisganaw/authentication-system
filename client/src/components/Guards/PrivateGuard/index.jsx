@@ -26,7 +26,7 @@ const PrivateRouteGuard = () => {
       console.log("No Token");
       if (cmpntInitialized) return setDisplayPage(true);
       // To prevent double firing in react strict mode development
-      console.log("So, refresh Access token!");
+    
       cmpntInitialized = true;
       refreshAccessToken()
         .then((response) => {
