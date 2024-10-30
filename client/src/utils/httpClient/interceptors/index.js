@@ -1,6 +1,5 @@
 import http from "..";
 import logError from "../errorHandler";
-import { authStorage } from "../../browserStorage";
 import { addAuthToken } from "../../../redux/features/auth/authSlice";
 import { refreshAccessToken } from "../../../api";
 

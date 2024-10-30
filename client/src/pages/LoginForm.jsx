@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-
 import { login } from "../redux/actions";
 
 function Login() {
@@ -17,14 +16,11 @@ function Login() {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Email address is invalid")
-        .required("Email is required"),
+      email: Yup.string().email("Email address is invalid").required("Email is required"),
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: (values, actions) => {
-      // alert(JSON.stringify(values, null, 2));
-      function alterFormToAPIResult(error, success) {
+      function alterFormToAPIResult(error) {
         if (error) {
           actions.setFieldTouched("password", false);
           actions.setFieldValue("password", "");
@@ -35,44 +31,29 @@ function Login() {
   });
 
   return (
-    <div style={{ maxWidth: 500, marginInline: "auto" }}>
-      <h2 className="text-uppercase mb-3">Login to your account.</h2>
+    <div className="container" style={{ maxWidth: 400, margin: "auto", marginTop: "50px" }}>
+      <div className="border rounded p-4 shadow">
+        <h2 className="text-uppercase mb-3 text-center">Login to your account</h2>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              id="email"
+              name="email"
+              type="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter Email"
+              tabIndex={1}
+            />
+            {formik.touched.email && formik.errors.email && (
+              <Form.Text className="text-danger">{formik.errors.email}</Form.Text>
+            )}
+          </Form.Group>
 
-      <Form onSubmit={formik.handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            id="email"
-            name="email"
-            type="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="Enter Email"
-            tabIndex={1}
-          />
-
-          {formik.touched.email && formik.errors.email ? (
-            <Form.Text className="text-danger">{formik.errors.email}</Form.Text>
-          ) : null}
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <div className="position-relative">
-            <Form.Text
-              className="text-primary m-0 text-decoration-none"
-              style={{
-                position: "absolute",
-                right: 0,
-                transform: "translateY(-100%)",
-              }}
-              as={Link}
-              to="/recoverpass"
-              tabIndex={5}
-            >
-              Forgot password?
-            </Form.Text>
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
             <Form.Control
               id="password"
               name="password"
@@ -83,32 +64,22 @@ function Login() {
               placeholder="Enter Password"
               tabIndex={2}
             />
-          </div>
+            {formik.touched.password && formik.errors.password && (
+              <Form.Text className="text-danger">{formik.errors.password}</Form.Text>
+            )}
+          </Form.Group>
 
-          {formik.touched.password && formik.errors.password ? (
-            <Form.Text className="text-danger">
-              {formik.errors.password}
-            </Form.Text>
-          ) : null}
-        </Form.Group>
+          <Button variant="primary" type="submit" className="text-uppercase w-100" disabled={loginLoading} tabIndex={3}>
+            {loginLoading ? "Loading..." : "Submit"}
+          </Button>
 
-        <Button
-          variant="primary"
-          type="submit"
-          className="text-uppercase"
-          disabled={loginLoading}
-          tabIndex={3}
-        >
-          {loginLoading ? "Loading..." : "Submit"}
-        </Button>
+          <p className="text-muted mt-2">
+            Don't have an account yet? <Link to="/signup">Sign Up here</Link>
+          </p>
 
-        <p className="text-muted fst-italic mt-1">
-          Don't have an account yet?{" "}
-          <Link to="/signup" tabIndex={4}>
-            Sign Up here
-          </Link>
-        </p>
-      </Form>
+          <Link to="/recoverpass" className="text-primary">Forgot password?</Link>
+        </Form>
+      </div>
     </div>
   );
 }
